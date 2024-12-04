@@ -21,7 +21,8 @@ async function startAzurePipeline(project, pipelineId, pat, campaignId, catalogI
     variables: {
       campaignId: { value: campaignId },
       catalogId: { value: catalogId },
-      customerId: { value: customerId }
+      customerId: { value: customerId },
+      bucketName: { value: bucketName }
     }
   };
 
