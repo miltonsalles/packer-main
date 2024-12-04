@@ -6,14 +6,22 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-async function startAzurePipeline(project, pipelineId, pat, params) {
-  const url = `https://dev.azure.com/grupoltm/${project}/_apis/pipelines/${pipelineId}/runs?api-version=7.2-preview.1`;
+async function startAzurePipeline(project, pipelineId, pat, campaignId, catalogId, bucketName) {
+  // const url = `https://dev.azure.com/grupoltm/${project}/_apis/pipelines/${pipelineId}/runs?api-version=7.2-preview.1`;
+  const url = `https://grupoltm.visualstudio.com/${project}/_apis/pipelines/${pipelineId}/runs?api-version=7.2-preview.1`;
 
   const payload = {
+    resources: {
+      repositories: {
+        self: {
+          refName: 'main'
+        }
+      }
+    },
     variables: {
-      campaignId: { value: params.campaignId },
-      catalogId: { value: params.catalogId },
-      customerId: { value: params.customerId }
+      campaignId: { value: campaignId },
+      catalogId: { value: catalogId },
+      customerId: { value: customerId }
     }
   };
 
