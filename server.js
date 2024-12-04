@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;  // Porta do One Render
 
 app.use(express.json());
 
@@ -58,7 +58,7 @@ app.post('/api/deploy', async (req, res) => {
   }
 });
 
-// Escutando na porta do One Render
+// Escutando na porta fornecida pelo One Render
 app.listen(port, () => {
   console.log(`Host: http://localhost:${port}`);
 });
