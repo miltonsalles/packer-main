@@ -6,8 +6,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-async function startAzurePipeline(project, pipelineId, pat, campaignId, catalogId, bucketName) {
-  // const url = `https://dev.azure.com/grupoltm/${project}/_apis/pipelines/${pipelineId}/runs?api-version=7.2-preview.1`;
+async function startAzurePipeline(project, pipelineId, pat, campaignId, catalogId, customerId, bucketName) {
   const url = `https://grupoltm.visualstudio.com/${project}/_apis/pipelines/${pipelineId}/runs?api-version=7.2-preview.1`;
 
   const payload = {
@@ -45,14 +44,14 @@ async function startAzurePipeline(project, pipelineId, pat, campaignId, catalogI
 }
 
 app.post('/api/deploy', async (req, res) => {
-  const { project, pipelineId, pat, campaignId, catalogId, bucketName } = req.body;
+  const { project, pipelineId, pat, campaignId, catalogId, bucketName, customerId } = req.body;
 
-  if (!campaignId || !catalogId) {
-    return res.status(400).send('Missing campaignId or catalogId');
+  if (!campaignId || !catalogId || !customerId) {
+    return res.status(400).send('Missing campaignId or catalogId or customerId');
   }
 
   try {
-    await startAzurePipeline(project, pipelineId, pat, campaignId, catalogId, bucketName);
+    await startAzurePipeline(project, pipelineId, pat, campaignId, catalogId, customerId, bucketName);
     res.status(200).send('Started');
   } catch (error) {
     res.status(500).send(`Error: ${error.message}`);
